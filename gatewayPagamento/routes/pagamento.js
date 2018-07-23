@@ -17,7 +17,7 @@
         console.log('processando pagamento');
 
         pagamento.status = 'NOVO';
-        pagamento.data = new Date();
+        pagamento.data = new Date;
 
         console.log(pagamento);
 
@@ -34,6 +34,51 @@
                 res.status(201).json(pagamento)
             };
         })
+        console.log('Fim POST');
+    });
+
+    app.put('/pagamento/:id', function(req,res){
+        var pagamento = {};
+        var id = req.params.id;
+
+        pagamento.id = id;
+        pagamento.status = "CONFIRMADO"
+
+        var connection = app.data.connectionFactory();
+        var pagamentoDao = new app.data.PagamentoDao(connection);
+
+        pagamentoDao.atualiza(pagamento,function(erro){
+            if(erro){
+                console.log(erro)
+                res.status(500).send(erro);
+            } else {
+                res.send(pagamento);
+                res.status(201).json(pagamento)
+            };
+        })
+        console.log('Fim PUT');
+    });
+
+    app.delete('/pagamento/:id', function(req,res){
+        var pagamento = {};
+        var id = req.params.id;
+
+        pagamento.id = id;
+        pagamento.status = "CANCELADO"
+
+        var connection = app.data.connectionFactory();
+        var pagamentoDao = new app.data.PagamentoDao(connection);
+
+        pagamentoDao.atualiza(pagamento,function(erro){
+            if(erro){
+                console.log(erro)
+                res.status(500).send(erro);
+            } else {
+                res.send(pagamento);
+                res.status(201).json(pagamento)
+            };
+        })
+        console.log('Fim DELETE');
     });
 }
 

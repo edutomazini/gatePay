@@ -9,7 +9,6 @@ module.exports = function () {
 
     app.use(bodyParser.urlencoded({extend: true}));
     app.use(bodyParser.json());
-
     app.use(expressValidator());
 
     consign()
