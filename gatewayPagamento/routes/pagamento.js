@@ -4,6 +4,15 @@
     });
 
     app.post('/pagamento', function (req, res) {
+        req.assert("valor","valor é obrigatorio e deve ser válido").notEmpty().isFloat();
+        var erros = req.validationErrors();
+
+        if (erros){
+            console.log('Erros de validacao');
+            res.status(400).send(erros);
+            return;
+        }
+
         var pagamento = req.body;
         console.log('processando pagamento');
 
@@ -16,8 +25,14 @@
         var pagamentoDao = new app.data.PagamentoDao(connection);
 
         pagamentoDao.salva(pagamento,function(erro, resultado){
-            console.log('pagamento criado');
-            res.json(pagamento);
+            if(erro){
+                console.log(erro)
+                res.status(500).send(erro);
+            } else {
+                console.log('pagamento criado');
+                res.location('/pagamento/'+resultado.insertId);
+                res.status(201).json(pagamento)
+            };
         })
     });
 }
