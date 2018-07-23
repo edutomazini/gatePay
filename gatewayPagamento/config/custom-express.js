@@ -10,6 +10,7 @@ module.exports = function () {
 
     consign()
         .include('routes')
+        .then('data')
         .into(app);
 
     return app;

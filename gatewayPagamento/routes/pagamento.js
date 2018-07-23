@@ -5,8 +5,20 @@
 
     app.post('/pagamento', function (req, res) {
         var pagamento = req.body;
+        console.log('processando pagamento');
+
+        pagamento.status = 'NOVO';
+        pagamento.data = new Date();
+
         console.log(pagamento);
-        res.send('ok post');
+
+        var connection = app.data.connectionFactory();
+        var pagamentoDao = new app.data.PagamentoDao(connection);
+
+        pagamentoDao.salva(pagamento,function(erro, resultado){
+            console.log('pagamento criado');
+            res.json(pagamento);
+        })
     });
 }
 
