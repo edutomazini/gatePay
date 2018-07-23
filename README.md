@@ -1,1 +1,1 @@
-- exercicio simples de uma API em node.js
+- API em node.js
